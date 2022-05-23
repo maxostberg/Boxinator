@@ -13,8 +13,9 @@ function FormInput(props) {
         value={inputValue}
         defaultValue={props.defaultValue}
         onChange={props.onChange}
-        className="boxinatorInput"
+        className={`boxinatorInput`}
       />
+      {props.valid && <p className="notValidText">You can not do that</p>}
     </div>
   );
 }

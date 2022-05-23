@@ -3,7 +3,7 @@ const convertToRgb = (hex) => {
   const green = parseInt(hex[3] + hex[4], 16);
   const blue = parseInt(hex[5] + hex[6], 16);
 
-  return `${red}, ${green}, ${blue}`;
+  return `${red},${green},${blue}`;
 };
 
 export default convertToRgb;

@@ -7,7 +7,7 @@ function FormDropDown(props) {
         <strong>{props.label}</strong>
       </label>
       <select
-        className="boxinatorInput boxinatorDropDown"
+        className={`boxinatorInput boxinatorDropDown`}
         onChange={props.onChange}
         value={props.value}
       >

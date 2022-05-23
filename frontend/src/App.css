@@ -5,6 +5,7 @@
 }
 body {
   min-height: 100vh;
+  background: #302e2e;
 }
 input {
   all: unset;
@@ -19,6 +20,7 @@ select {
 }
 .centerOnPage {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -48,5 +50,8 @@ select {
 .boxinatorDropDown {
   width: 100%;
   height: 3.2rem;
+}
+.notValid {
+  border: 1px solid #a70a0a;
 }
 /*# sourceMappingURL=App.css.map */
