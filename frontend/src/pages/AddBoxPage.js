@@ -1,21 +1,35 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddBoxesForm from "../components/AddBoxesForm";
+import Button from "../components/Button";
+import ErrorMessageBox from "../components/ErrorMessageBox";
 import FormDropDown from "../components/FormDropDown";
 import FormInput from "../components/FormInput";
 import convertToRgb from "../helpers/convertToRgb";
+import useBoxes from "../hooks/useBoxes";
 import useValidation from "../hooks/useValidation";
-import { startEditingForm, formFieldChange } from "../redux/slices/formSlice";
+import {
+  startEditingForm,
+  formFieldChange,
+  resetFormState,
+} from "../redux/slices/formSlice";
 
 function AddBoxPage() {
   const dispatch = useDispatch();
   const boxForm = useSelector((state) => state.forms.boxForm);
-  const { errors, validFields, checkConditions } = useValidation({
+  const { postBox } = useBoxes();
+  const { errors, checkConditions } = useValidation({
     name: {
       callback: (value) => {
-        return value.length < 6;
+        return value.length < 2;
       },
-      message: "name must be more than 6 characters",
+      message: "name must be more than 2 characters",
+    },
+    weight: {
+      callback: (value) => {
+        return value <= 0 || isNaN(value);
+      },
+      message: "Weight cant be less than 0 and must be a number",
     },
   });
 
@@ -23,60 +37,71 @@ function AddBoxPage() {
     dispatch(
       startEditingForm({
         formId: "boxForm",
-        data: { name: "", weight: 0, boxColor: "", country: "" },
+        data: { id: 0, name: null, weight: null, color: null, country: null },
       })
     );
   }, [dispatch]);
 
   const handleFormFieldChange = (fieldName, value) => {
     checkConditions(fieldName, value);
-    console.log(validFields);
     dispatch(
       formFieldChange({ formId: "boxForm", field: fieldName, value: value })
     );
   };
 
-  //make component
-  const errorBoxes = (obj) => {
-    for (const [key, value] of Object.entries(obj)) {
-      console.log(obj);
-      return <p>{value}</p>;
-    }
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    postBox(boxForm);
+    e.target.reset();
   };
 
   return (
-    <div className="page centerOnPage">
-      {Object.keys(errors).length !== 0 ? errorBoxes(errors) : null}
-      <AddBoxesForm>
+    <div className="page centerOnPage" data-test="addPage">
+      {Object.keys(errors).length !== 0 ? (
+        <ErrorMessageBox errorMessages={errors} />
+      ) : null}
+      <AddBoxesForm onSubmit={(e) => handleFormSubmit(e)}>
         <FormInput
           label="Name"
-          value={boxForm?.name}
+          defaultValue={boxForm?.name === null ? "" : boxForm?.name}
           onChange={(e) => handleFormFieldChange("name", e.target.value)}
-          valid={false}
         />
         <FormInput
           label="Weight"
-          value={boxForm?.weight}
-          onChange={(e) => handleFormFieldChange("weight", e.target.value)}
+          type="number"
+          defaultValue={
+            boxForm?.weight === null ? "0" : toString(boxForm?.weight)
+          }
+          onChange={(e) =>
+            handleFormFieldChange(
+              "weight",
+              isNaN(e.target.value)
+                ? 0
+                : parseInt(e.target.value) < 0
+                ? 0
+                : parseInt(e.target.value)
+            )
+          }
         />
         <FormInput
           label="Box color"
           type="color"
           defaultValue="#ffffff"
           onChange={(e) =>
-            handleFormFieldChange(
-              "boxColor",
-              convertToRgb(
-                e.target.value === "" ? "255,255,255" : e.target.value
-              )
-            )
+            handleFormFieldChange("color", convertToRgb(e.target.value))
           }
         />
         <FormDropDown
           label="Country"
-          value={boxForm?.country}
-          onChange={(e) => handleFormFieldChange("country", e.target.value)}
+          value={boxForm?.country ? boxForm?.country : ""}
+          onChange={(e) =>
+            handleFormFieldChange(
+              "country",
+              e.target.value === "" ? null : e.target.value
+            )
+          }
         />
+        <Button type="submit" btnText="Save" />
       </AddBoxesForm>
     </div>
   );

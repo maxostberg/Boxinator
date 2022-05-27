@@ -13,6 +13,9 @@ function FormDropDown(props) {
       >
         <option value={""}>Select Country</option>
         <option value={"Sweden"}>Sweden</option>
+        <option value={"China"}>China</option>
+        <option value={"Brazil"}>Brazil</option>
+        <option value={"Australia"}>Australia</option>
       </select>
     </div>
   );

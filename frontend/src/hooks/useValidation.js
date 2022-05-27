@@ -2,9 +2,9 @@ import React, { useState } from "react";
 
 function useValidation(conditions) {
   const [errors, setErrors] = useState({});
-  const [validFields, setValidFields] = useState({});
 
   const checkConditions = (field, value) => {
+    if (!conditions[field]) return;
     if (conditions[field].callback(value)) {
       setErrors({ ...errors, [field]: conditions[field].message });
       return;
@@ -16,7 +16,6 @@ function useValidation(conditions) {
 
   return {
     errors,
-    validFields,
     checkConditions,
   };
 }

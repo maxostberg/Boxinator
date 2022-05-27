@@ -5,7 +5,20 @@
 }
 body {
   min-height: 100vh;
-  background: #302e2e;
+  background: #ffffff;
+}
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+.boxinatorButton {
+  margin-left: auto;
+  margin-right: 0;
+  padding: 0.5rem;
+  width: 5rem;
 }
 input {
   all: unset;
@@ -14,6 +27,15 @@ select {
   border: none;
   resize: none;
   outline: none;
+}
+.navBar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #277517;
+  width: 100%;
+  height: 3rem;
+  padding: 1rem;
 }
 .page {
   height: 100vh;
@@ -51,7 +73,39 @@ select {
   width: 100%;
   height: 3.2rem;
 }
-.notValid {
-  border: 1px solid #a70a0a;
+.errorMessageContainer {
+  width: 30rem;
+  border: 2px solid #b30000;
+  border-radius: 5px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  background: #ff9a9a;
+}
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.totalContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.table {
+  border: 1px solid black;
+  height: fit-content;
+  margin-top: 1rem;
+  border-collapse: collapse;
+}
+.thead th {
+  border: 1px solid black;
+  padding: 1rem;
+}
+.tbody td {
+  border: 1px solid black;
+  padding: 0.5rem;
 }
 /*# sourceMappingURL=App.css.map */

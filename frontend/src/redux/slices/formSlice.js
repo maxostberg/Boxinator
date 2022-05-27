@@ -13,9 +13,12 @@ export const formSlice = createSlice({
     formFieldChange: (state, action) => {
       state[action.payload.formId][action.payload.field] = action.payload.value;
     },
+
+    resetFormState: () => initialState,
   },
 });
 
-export const { startEditingForm, formFieldChange } = formSlice.actions;
+export const { startEditingForm, formFieldChange, resetFormState } =
+  formSlice.actions;
 
 export default formSlice.reducer;
